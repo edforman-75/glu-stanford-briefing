@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLU — Stanford GSB Briefing Package</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf9f7;
+  --bg-card: #ffffff;
+  --text: #1a1a1a;
+  --text-muted: #6b6560;
+  --accent: #c44b2b;
+  --accent-light: #f4e8e4;
+  --border: #e8e4e0;
+  --border-active: #c44b2b;
+  --sidebar-bg: #2c2420;
+  --sidebar-text: #c8bfb8;
+  --sidebar-active: #ffffff;
+  --sidebar-hover: #3d332e;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* LAYOUT */
+.layout { display:flex; min-height:100vh; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-header {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar-header h1 {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+.sidebar-header p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+.sidebar-section {
+  padding: 16px 0 8px;
+}
+.sidebar-section-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.3);
+  padding: 0 24px 8px;
+}
+.sidebar a {
+  display: block;
+  padding: 8px 24px;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  font-size: 13.5px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.sidebar a:hover {
+  background: var(--sidebar-hover);
+  color: #fff;
+}
+.sidebar a.active {
+  color: var(--sidebar-active);
+  border-left-color: var(--accent);
+  background: rgba(196,75,43,0.1);
+  font-weight: 500;
+}
+
+/* MAIN CONTENT */
+.main {
+  margin-left: 280px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* PAGE SECTIONS */
+.page {
+  display: none;
+  padding: 48px 60px 80px;
+  max-width: 900px;
+}
+.page.active { display: block; }
+
+/* TYPOGRAPHY */
+.page h1 {
+  font-family: var(--serif);
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -1px;
+}
+.page h1 + .subtitle {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+  font-style: italic;
+  font-family: var(--serif);
+  font-size: 19px;
+}
+.page h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 600;
+  margin: 48px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: -0.3px;
+}
+.page h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 32px 0 12px;
+  color: var(--text);
+}
+.page h4 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 24px 0 8px;
+  color: var(--accent);
+}
+.page p { margin-bottom: 16px; }
+.page ul, .page ol {
+  margin: 0 0 16px 20px;
+}
+.page li { margin-bottom: 6px; }
+.page strong { font-weight: 700; }
+.page em { font-style: italic; }
+.page blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  background: var(--accent-light);
+  margin: 20px 0;
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+  font-family: var(--serif);
+  font-size: 17px;
+}
+
+/* TABLES */
+.page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 13.5px;
+}
+.page th {
+  background: var(--sidebar-bg);
+  color: #fff;
+  text-align: left;
+  padding: 10px 14px;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.page td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.page tr:hover td { background: rgba(196,75,43,0.03); }
+
+/* INFO CARDS */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  margin: 20px 0;
+}
+.card.accent {
+  border-left: 4px solid var(--accent);
+}
+.card.highlight {
+  background: var(--accent-light);
+  border-color: transparent;
+}
+
+/* METRIC ROW */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.metric {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+.metric .value {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.metric .label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* CODE */
+.page code {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: #f0ede9;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* BADGE */
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+.badge.red { background: #fde8e8; color: #c44b2b; }
+.badge.green { background: #e8f5e9; color: #2e7d32; }
+.badge.blue { background: #e3f2fd; color: #1565c0; }
+.badge.gray { background: #f0ede9; color: #6b6560; }
+
+/* HAMBURGER (mobile) */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 200;
+  background: var(--sidebar-bg);
+  color: #fff;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* PRINT */
+@media print {
+  .sidebar, .hamburger { display: none !important; }
+  .main { margin-left: 0 !important; }
+  .page { display: block !important; page-break-before: always; }
+  .page:first-child { page-break-before: auto; }
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .hamburger { display: flex; align-items: center; justify-content: center; }
+  .main { margin-left: 0; }
+  .page { padding: 60px 24px 60px; }
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1>GLU</h1>
+    <p>Stanford GSB Briefing · Feb 2026</p>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Start Here</div>
+    <a href="#home" class="active" onclick="showPage('home')">Overview & Context</a>
+    <a href="#briefing" onclick="showPage('briefing')">Model Comparison</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Operating Model</div>
+    <a href="#principles" onclick="showPage('principles')">Operating Principles</a>
+    <a href="#diagnosis" onclick="showPage('diagnosis')">Diagnosis vs Execution</a>
+    <a href="#archetypes" onclick="showPage('archetypes')">Model Archetypes</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Financial Model</div>
+    <a href="#forecast" onclick="showPage('forecast')">Operating Forecast</a>
+    <a href="#unit-econ" onclick="showPage('unit-econ')">Unit Economics</a>
+    <a href="#cash" onclick="showPage('cash')">Cash & Headcount</a>
+    <a href="#risks" onclick="showPage('risks')">Risks & Mitigations</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Scaling & Distribution</div>
+    <a href="#headcount" onclick="showPage('headcount')">Headcount Scaling</a>
+    <a href="#distribution" onclick="showPage('distribution')">Distribution Strategy</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Customer Experience</div>
+    <a href="#journey" onclick="showPage('journey')">Customer Journey</a>
+  </div>
+</nav>
+
+<div class="main">
+
+<!-- ============================================ -->
+<!-- HOME PAGE -->
+<!-- ============================================ -->
+<div class="page active" id="page-home">
+<h1>GLU Operating Model</h1>
+<div class="subtitle">Briefing Package for Stanford GSB Project Team — February 2026</div>
+
+<div class="card accent">
+<strong>What is this?</strong> GLU is an AI-native Product Information Management company. It diagnoses why AI assistants (ChatGPT, Claude, Perplexity, Google AI) can't recommend a brand's products — and provides specifications to fix it. This package presents two competing business model alternatives for your analysis.
+</div>
+
+<h2>What GLU Does</h2>
+<p>When a consumer asks ChatGPT "What's the best bamboo hoodie for running?", the AI searches across data sources to form a recommendation. If a brand's product data is incomplete, inconsistent, or missing key signals, the AI can't recommend them — even if the product is excellent.</p>
+<p>GLU diagnoses these gaps and produces detailed specifications for fixing them. The company calls this <strong>AI Engine Optimization (AEO)</strong> — making product information machine-readable so AI systems can accurately recommend products.</p>
+
+<h2>The Strategic Question</h2>
+<p>GLU's founders face a fundamental choice between two business models that look similar on the surface but have radically different implications for how the company operates, scales, and creates value:</p>
+
+<div class="metrics">
+  <div class="metric"><div class="value">A</div><div class="label">Specialist Services<br>"Mu Sigma for AEO"</div></div>
+  <div class="metric"><div class="value">B</div><div class="label">Diagnostic Intelligence<br>Operating Model</div></div>
+</div>
+
+<table>
+<tr><th>Dimension</th><th>Model A: Specialist Services</th><th>Model B: Operating Model</th></tr>
+<tr><td><strong>Identity</strong></td><td>AEO consulting firm with specialist leverage</td><td>Diagnostic intelligence company with software delivery</td></tr>
+<tr><td><strong>Revenue</strong></td><td>$12K–$250K tiered engagements</td><td>$299–$20K product phases (Observe/Analyze/Deploy/Monitor)</td></tr>
+<tr><td><strong>Scaling mechanism</strong></td><td>Specialist pyramid (1 senior → 3 juniors)</td><td>SSOT knowledge accretion, same software runs more times</td></tr>
+<tr><td><strong>Headcount at $5M</strong></td><td>30–50 people</td><td>8–12 people</td></tr>
+<tr><td><strong>IP protection</strong></td><td>Proprietary methods, specialist training</td><td>Apple archetype: full compartmentalization, black-box diagnostics</td></tr>
+<tr><td><strong>Distribution</strong></td><td>Direct sales + agency partnerships</td><td>Shopify App Store + agency partners + limited direct</td></tr>
+<tr><td><strong>Gross margins</strong></td><td>60–70% (labor-intensive delivery)</td><td>87–99% (software-driven delivery)</td></tr>
+<tr><td><strong>Exit multiples</strong></td><td>1–3× revenue (services)</td><td>8–15× revenue (SaaS-adjacent product)</td></tr>
+</table>
+
+<h2>Navigate This Package</h2>
+<p>Start with the <strong>Model Comparison</strong> for a complete side-by-side analysis with discussion questions. Then explore the supporting Operating Model documentation for full detail on each component.</p>
+
+<div class="card highlight">
+<strong>Source materials:</strong> The Operating Model documents were authored by the founders as an internal cofounder alignment package. The comparison briefing was prepared for this Stanford GSB project. All financial projections use conservative assumptions (95th percentile Pune-based costs, moderate revenue cases).
+</div>
+
+<h2>Market Context</h2>
+<p>Shopify announced "Agentic Storefronts" in early 2026, validating the thesis that AI-mediated commerce is arriving. Major AI assistants are increasingly answering product questions directly rather than linking to search results. This creates urgent demand for the category GLU is building.</p>
+<p>The competitive landscape is early: no established player offers comprehensive AI Engine Optimization diagnostics for ecommerce brands. SEO agencies are beginning to add "AI optimization" services, but these are typically manual, labor-intensive, and lack systematic diagnostic methodology.</p>
+
+<h2>Evidence Status</h2>
+<table>
+<tr><th>Claim</th><th>Status</th></tr>
+<tr><td>AI assistants recommend products based on data quality</td><td><span class="badge green">Proven</span> Demonstrated across multiple brands</td></tr>
+<tr><td>Product data gaps are systematic, not random</td><td><span class="badge green">Proven</span> 919 products analyzed for TASC Performance</td></tr>
+<tr><td>Diagnostics can be delivered by software at $5–25 cost</td><td><span class="badge blue">Built</span> Working system, not yet at scale</td></tr>
+<tr><td>Brands will pay $3,500+ for diagnostic specifications</td><td><span class="badge gray">Assumed</span> Based on comparable services pricing</td></tr>
+<tr><td>SSOT accretion compounds across engagements</td><td><span class="badge gray">Assumed</span> Core thesis, not yet validated at scale</td></tr>
+<tr><td>Agency partners will actively resell diagnostics</td><td><span class="badge gray">Assumed</span> Based on partner conversations</td></tr>
+</table>
+</div>
+
+<!-- ============================================ -->
+<!-- BRIEFING / MODEL COMPARISON -->
+<!-- ============================================ -->
+<div class="page" id="page-briefing">
+<h1>Model Comparison</h1>
+<div class="subtitle">Specialist Services (Mu Sigma) vs. Diagnostic Intelligence (Operating Model)</div>
+
+<h2>Model A: Specialist Services — "Mu Sigma for AEO"</h2>
+
+<h3>Description</h3>
+<p>GLU operates as an AEO consulting firm built on the Mu Sigma archetype: proprietary methodology delivered through specialist leverage. Senior diagnosticians develop analytical frameworks; junior specialists execute bounded diagnostic tasks under supervision. The company scales by hiring specialists faster than revenue grows (specialist leverage ratio of 1:3).</p>
+
+<div class="card accent">
+<strong>Key insight:</strong> This is a people business that uses technology as enablement. Revenue scales with headcount. The advantage is accumulated institutional knowledge and proprietary methodology, delivered by trained humans.
+</div>
+
+<h3>Service Tiers</h3>
+<table>
+<tr><th>Tier</th><th>Price</th><th>Scope</th><th>Duration</th></tr>
+<tr><td><strong>AEO Audit</strong></td><td>$12,000–$25,000</td><td>Full diagnostic, specifications, implementation roadmap</td><td>2–4 weeks</td></tr>
+<tr><td><strong>AEO Implementation</strong></td><td>$25,000–$75,000</td><td>Audit + supervised execution of changes</td><td>4–8 weeks</td></tr>
+<tr><td><strong>AEO Retainer</strong></td><td>$8,000–$15,000/mo</td><td>Ongoing monitoring, quarterly re-audits, strategic advisory</td><td>6–12 months</td></tr>
+<tr><td><strong>Enterprise Program</strong></td><td>$100,000–$250,000</td><td>Multi-brand, cross-platform, dedicated team</td><td>12+ months</td></tr>
+</table>
+
+<h3>Unit Economics</h3>
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Blended engagement value</td><td>$35,000–$50,000</td></tr>
+<tr><td>Gross margin</td><td>60–70%</td></tr>
+<tr><td>LTV (at 90% annual retention)</td><td>$150,000–$250,000</td></tr>
+<tr><td>CAC (blended)</td><td>$5,000–$15,000</td></tr>
+<tr><td>LTV:CAC</td><td>10:1–25:1</td></tr>
+<tr><td>Headcount at $5M revenue</td><td>30–50 people</td></tr>
+</table>
+
+<h3>Customer Journey</h3>
+<p><strong>Awareness:</strong> Brand hears about AEO through conference, agency partner, or case study. <strong>Discovery:</strong> Founder-led consultation call, diagnostic sample. <strong>Engagement:</strong> AEO Audit delivered by senior diagnostician + specialist team. <strong>Expansion:</strong> Implementation tier, then retainer for ongoing monitoring. <strong>Retention:</strong> Quarterly re-audits, strategic advisory, relationship-driven.</p>
+
+<h3>Scaling Mechanism</h3>
+<p>The Mu Sigma model scales through specialist leverage: for every senior diagnostician ($120K–$150K), hire 3 junior specialists ($40K–$55K each, Pune-based). Seniors define frameworks and quality standards; juniors execute bounded diagnostic tasks. Each senior + 3 juniors can handle ~$800K–$1.2M in annual engagement revenue.</p>
+
+<hr style="margin:48px 0; border:none; border-top:1px solid var(--border);">
+
+<h2>Model B: Operating Model — Diagnostic Intelligence Company</h2>
+
+<h3>Description</h3>
+<p>GLU operates as a product company that sells diagnostic intelligence delivered by software. The diagnostic engine accumulates knowledge (SSOT — Single Source of Truth) across every engagement, making each subsequent diagnosis faster and more accurate. The company stays small by design because software does the work, not people.</p>
+
+<div class="card accent">
+<strong>Key insight:</strong> This is a software business that uses people for governance and improvement. Revenue scales with software utilization. The advantage is accumulated diagnostic knowledge that compounds through use, delivered by automated systems with human oversight.
+</div>
+
+<h3>The 7 Core Objectives</h3>
+<ol>
+<li><strong>We sell diagnosis, not execution</strong> — Customers pay for understanding, not implementation</li>
+<li><strong>We protect IP through compartmentalization</strong> — Apple archetype, black-box methods</li>
+<li><strong>We grow through accumulated knowledge, not headcount</strong> — SSOT accretion is the scaling mechanism</li>
+<li><strong>Partners sell for us</strong> — Agency leverage replaces sales headcount</li>
+<li><strong>We're a product company, not a service company</strong> — Automation first, no coaching or consulting</li>
+<li><strong>We reach breakeven fast with minimal overhead</strong> — Month 8 on $250K starting cash</li>
+<li><strong>We build an attractive business</strong> — High margins, defensible IP, clear unit economics</li>
+</ol>
+
+<h3>Revenue Model (Observe → Analyze → Deploy → Monitor)</h3>
+<table>
+<tr><th>Phase</th><th>Price</th><th>What Customer Gets</th><th>Type</th></tr>
+<tr><td><strong>App Store</strong></td><td>$299</td><td>Automated diagnostic snapshot</td><td>Self-service</td></tr>
+<tr><td><strong>Observe</strong></td><td>$3,500</td><td>Full diagnostic: what's broken, why AI can't recommend you</td><td>One-time</td></tr>
+<tr><td><strong>Analyze</strong></td><td>$10,000</td><td>Detailed specifications of what to change + competitive urgency</td><td>One-time</td></tr>
+<tr><td><strong>Deploy</strong></td><td>$12,000</td><td>AI-generated content drafts for human review and approval</td><td>One-time</td></tr>
+<tr><td><strong>Monitor</strong></td><td>$1,500/yr</td><td>Automated tracking of advice environment changes</td><td>Recurring</td></tr>
+</table>
+
+<h3>Unit Economics</h3>
+<div class="metrics">
+  <div class="metric"><div class="value">$5–25</div><div class="label">Delivery Cost per Engagement</div></div>
+  <div class="metric"><div class="value">87–99%</div><div class="label">Gross Margins</div></div>
+  <div class="metric"><div class="value">39:1</div><div class="label">LTV:CAC (App Store)</div></div>
+  <div class="metric"><div class="value">Month 8</div><div class="label">Cash Flow Breakeven</div></div>
+</div>
+
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>LTV per Analyze customer</td><td>$9,950</td></tr>
+<tr><td>CAC (App Store channel)</td><td>$252</td></tr>
+<tr><td>CAC (Direct/founder-led)</td><td>$410</td></tr>
+<tr><td>CAC (Partner-sourced)</td><td>$885</td></tr>
+<tr><td>Year 1 revenue</td><td>$450K–$650K</td></tr>
+<tr><td>24-month cumulative net cash</td><td>$1.79M–$2.81M</td></tr>
+<tr><td>Headcount at $5M revenue</td><td>8–12 people</td></tr>
+</table>
+
+<hr style="margin:48px 0; border:none; border-top:1px solid var(--border);">
+
+<h2>Key Questions for Your Analysis</h2>
+<div class="card">
+<ol>
+<li><strong>Diagnosis-only vs. diagnosis+execution:</strong> The Mu Sigma model sells both. The Operating Model explicitly rejects execution (except bounded Deploy). Is pure diagnosis viable, or will customers demand implementation?</li>
+<li><strong>SSOT accretion:</strong> The Operating Model bets on knowledge compounding as the scaling mechanism. What evidence would validate this? How do you test it before committing?</li>
+<li><strong>Hybrid path:</strong> Could GLU start with Operating Model economics and add Mu Sigma-style execution tiers later? Or do the operating principles prohibit this?</li>
+<li><strong>Async-first:</strong> The Operating Model enforces no standing meetings, no account management, email-first communication. The Mu Sigma model has regular client touchpoints. Which is realistic for $10K+ engagements?</li>
+<li><strong>Margin differential:</strong> Operating Model shows 87–99% gross margins with $5–25 delivery cost. Mu Sigma shows 60–70%. Is the Operating Model's margin projection credible?</li>
+<li><strong>LTV:CAC comparison:</strong> Operating Model is 39:1 (App Store channel) vs. Mu Sigma's 10:1–25:1. What drives the gap? Which is more defensible?</li>
+<li><strong>Capital requirements:</strong> The Operating Model reaches breakeven at Month 8 on $250K. The Mu Sigma model needs $500K–$1M to fund hiring ramp. What does each require in terms of risk tolerance?</li>
+<li><strong>Distribution dependency:</strong> Both models depend on agency partnerships. But the Operating Model also relies on Shopify App Store (Risk #4: existential if rejected). How material is this?</li>
+<li><strong>Pricing anchor:</strong> Operating Model prices Analyze at $3,500 (sold direct). Mu Sigma's AEO Audit starts at $12,000. Same diagnostic, very different framing. What does this signal?</li>
+<li><strong>Bot scraping risk:</strong> The Operating Model's highest risk is chatbot bot scraping failure, which would collapse margins from 93% to 50–85%. The Mu Sigma model is less exposed because humans do the work. How do you weigh this?</li>
+<li><strong>Market validation:</strong> Shopify's "Agentic Storefronts" announcement validates the market thesis. But does market validation favor the product model (scale quickly) or the services model (capture premium value)?</li>
+<li><strong>Exit implications:</strong> Services businesses trade at 1–3× revenue. Product businesses trade at 8–15×. Does the Operating Model's product positioning hold up under diligence, or will investors see it as services in disguise?</li>
+</ol>
+</div>
+</div>
+
+<!-- ============================================ -->
+<!-- OPERATING PRINCIPLES -->
+<!-- ============================================ -->
+<div class="page" id="page-principles">
+<h1>Operating Principles</h1>
+<div class="subtitle">How We Make Decisions and What Stays Protected</div>
+
+<div class="card accent">
+<strong>Core Principle:</strong> We are driven by customer pull and research evidence, not unsupported opinion. Our roadmap follows clear signals from customers and rigorous research. We protect our competitive advantage by keeping methods confidential while delivering exceptional results.
+</div>
+
+<h2>Principle 1: Customer-Driven Roadmap</h2>
+<h3>We Build What Customers Need, Not What We Think They Need</h3>
+<p>GLU's product roadmap is driven by <strong>customer pull</strong> and <strong>research evidence</strong>, not by unsupported opinion, competitor mimicry, or founder intuition alone.</p>
+
+<h4>What Qualifies as a Valid Signal</h4>
+<p><strong>Direct customer requests:</strong> Multiple customers asking for the same feature, willingness to pay more, or declining engagement because of missing capability.</p>
+<p><strong>Research-driven insights:</strong> Data showing a platform's influence on AI recommendations (e.g., Amazon's extraordinary influence on chatbot responses), analysis revealing critical gaps, or competitive research showing missed opportunities.</p>
+<p><strong>Partner feedback:</strong> Agency partners reporting lost deals due to missing platform support, or requesting specific diagnostic capabilities.</p>
+
+<h4>What Does NOT Qualify</h4>
+<ul>
+<li>✗ "Everyone's doing X" — Competitor mimicry without customer evidence</li>
+<li>✗ "I think customers would like Y" — Founder opinion without validation</li>
+<li>✗ "This would be cool to build" — Engineering-driven features</li>
+<li>✗ "One customer asked for Z" — Isolated request without pattern</li>
+</ul>
+
+<h4>Roadmap Governance Rule</h4>
+<p>Before adding any feature to the roadmap, answer four questions with evidence: (1) How many customers are asking? (2) What research supports this? (3) Does this make us better at providing advice, or just broader? (4) Can we deliver without compromising IP protection?</p>
+
+<h2>Principle 2: What Stays in the Black Box</h2>
+<h3>IP Protection Through Compartmentalization</h3>
+
+<table>
+<tr><th>Protected Information</th><th>Why Protected</th><th>Consequence if Revealed</th></tr>
+<tr><td>Diagnostic algorithms and rules</td><td>Core IP</td><td>Competitors replicate diagnostics</td></tr>
+<tr><td>GLU Rules definitions and logic</td><td>Encoded judgment patterns</td><td>Anyone can build own rule engine</td></tr>
+<tr><td>Prompt engineering templates</td><td>LLM query structure</td><td>Agencies replicate approach</td></tr>
+<tr><td>SSOT structure</td><td>Accumulated learning</td><td>Compounding advantage disappears</td></tr>
+<tr><td>Authority gap calculations</td><td>Research methodology</td><td>Competitors copy research</td></tr>
+<tr><td>Monitoring drift detection logic</td><td>Change identification</td><td>Software tools automate monitoring</td></tr>
+<tr><td>Cross-brand pattern matching</td><td>Accumulated experience</td><td>Value of experience eliminated</td></tr>
+</table>
+
+<h3>What We DO Share</h3>
+<p><strong>Findings</strong> (what's broken), <strong>Recommendations</strong> (specific actions), <strong>Evidence</strong> (examples of the problem), <strong>Deployment drafts</strong> (AI-generated content), and <strong>Monitoring reports</strong> (ongoing tracking).</p>
+<blockquote>Key distinction: We tell customers <em>what</em> to change and <em>why</em> it matters. We don't tell them <em>how we figured it out</em>.</blockquote>
+
+<h3>How We Protect Methods</h3>
+<p><strong>Partners</strong> get results and specifications, not methodology. They cannot access our diagnostic engine, get training on methods, run diagnostics themselves, or white-label.</p>
+<p><strong>Contractors</strong> execute bounded tasks without understanding the full system. Task-specific instructions only, no access to full codebase, NDA coverage.</p>
+<p><strong>If a customer insists on understanding methods, they're not the right customer.</strong> Our value is in delivering results, not transferring knowledge.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- DIAGNOSIS VS EXECUTION -->
+<!-- ============================================ -->
+<div class="page" id="page-diagnosis">
+<h1>We Sell Diagnosis, Not Execution</h1>
+<div class="subtitle">Product Boundaries That Protect Our Business Model</div>
+
+<div class="card accent">
+<strong>Core Principle:</strong> Customers pay us to understand what's broken, not to fix it for them. We provide clarity, evidence, and detailed specifications. We don't become an agency that implements changes.
+</div>
+
+<p><strong>Why this matters:</strong> Execution services scale linearly with headcount and erode margins. Diagnostic intelligence scales through accumulated knowledge and compounds over time.</p>
+
+<h2>What We Sell</h2>
+<table>
+<tr><th>Phase</th><th>What Customer Gets</th><th>Purpose</th></tr>
+<tr><td><strong>Observe</strong></td><td>Diagnostic report: what's broken, why AI can't recommend</td><td>Understanding the problem</td></tr>
+<tr><td><strong>Analyze</strong></td><td>Detailed specifications of what to change + competitive urgency</td><td>Knowing what to do</td></tr>
+<tr><td><strong>Deploy</strong></td><td>AI-generated content drafts for human review/approval</td><td>Getting it done (optional, with constraints)</td></tr>
+<tr><td><strong>Monitor</strong></td><td>Automated tracking of advice environment changes</td><td>Staying aligned over time</td></tr>
+</table>
+
+<p><strong>Observe and Analyze</strong> are pure diagnosis — the core product. <strong>Deploy</strong> is bounded execution with structural protections. <strong>Monitor</strong> is automated observation.</p>
+
+<h2>Deploy Phase Guardrails</h2>
+<p>Deploy is the only phase where we cross into execution. Structural protections prevent agency drift:</p>
+<ul>
+<li><strong>Optional</strong> — Never required. Customers can apply specs themselves.</li>
+<li><strong>Requires diagnosis first</strong> — No Deploy without completed Observe + Analyze.</li>
+<li><strong>Add-only</strong> — Cannot delete, overwrite, or reposition existing content.</li>
+<li><strong>Does not interpret</strong> — Ambiguity escalates to human review. Mechanical application only.</li>
+<li><strong>Evaluated on fidelity, not outcomes</strong> — Did we apply exactly what was specified?</li>
+</ul>
+
+<div class="card">
+<strong>We apply templates. We are not creative.</strong> Our software executes patterns and applies templates at scale. We don't invent new brand concepts, create campaign strategies, or make creative decisions. If it requires creative judgment, that's human work. If it's applying a template systematically, that's our work.
+</div>
+
+<h2>Boundaries with Other Providers</h2>
+<p><strong>Content agencies:</strong> We provide diagnostically-grounded specifications. They write prose in brand voice, create images, design layouts.</p>
+<p><strong>SEO/growth agencies:</strong> We tell them what is true about platform influence. They decide strategy based on that truth.</p>
+<p><strong>Software platforms:</strong> Platforms provide capabilities. We provide intelligence about whether those capabilities produce coherent results.</p>
+<p><strong>Operations providers:</strong> They apply what we specified. They don't diagnose or create specifications.</p>
+
+<h2>When to Say No</h2>
+<ul>
+<li>Customer wants execution without diagnosis</li>
+<li>Customer wants creative/strategic content</li>
+<li>Customer wants ongoing operational management</li>
+<li>Customer wants experimentation ("figure out what works")</li>
+<li>Request requires creative judgment or strategic innovation</li>
+</ul>
+</div>
+
+<!-- ============================================ -->
+<!-- ARCHETYPES -->
+<!-- ============================================ -->
+<div class="page" id="page-archetypes">
+<h1>Operating Model Archetypes</h1>
+<div class="subtitle">How Different Companies Create and Protect Advantage</div>
+
+<p>This framework explains three fundamental approaches to building competitive advantage. These aren't models to copy — they're patterns that work for specific business types.</p>
+
+<h2>The Three Archetypes</h2>
+
+<h3>Apple Archetype: Coherence & Judgment</h3>
+<p><strong>Core optimization:</strong> Coherence, restraint, compartmentalization</p>
+<p>Extreme compartmentalization (teams don't know what other teams build), silence and restraint (no premature announcements), judgment over process (senior authority makes final calls), trust via consistency (products work together seamlessly).</p>
+<p><strong>Why it works for Apple:</strong> Product differentiation is everything. If competitors knew Apple's roadmap 12 months early, it would destroy their advantage. Ecosystem lock-in, premium margins, and small product line enable tight control.</p>
+
+<h3>Google Archetype: Learning Velocity & Publication</h3>
+<p><strong>Core optimization:</strong> Learning speed, research credibility, ecosystem building</p>
+<p>External publication (research papers, open source), transparency as recruiting (top researchers want to publish), ecosystem building (Android, TensorFlow become platforms others build on).</p>
+<p><strong>Why it works for Google:</strong> Network effects, advertising business model (open-sourcing doesn't hurt ad revenue), talent acquisition, and data advantages (competitors can't copy Google's data even with Google's algorithms).</p>
+
+<h3>Amazon Archetype: Execution Velocity & Throughput</h3>
+<p><strong>Core optimization:</strong> Execution speed, operational excellence, scale efficiency</p>
+<p>Radical internal transparency (everyone sees metrics), process documentation (everything written, repeatable, scalable), metrics-driven operations, trust via throughput.</p>
+<p><strong>Why it works for Amazon:</strong> Logistics and execution ARE the advantage. Competitors know Amazon's strategy but can't replicate the execution. Scale economics make volume = lower unit costs.</p>
+
+<h2>Where GLU Fits</h2>
+<table>
+<tr><th>Company</th><th>Archetype</th><th>Why</th></tr>
+<tr><td>Apple</td><td>Pure Apple</td><td>Product differentiation, ecosystem, premium margins</td></tr>
+<tr><td>Google</td><td>Pure Google</td><td>Network effects, data advantages, talent</td></tr>
+<tr><td>Amazon</td><td>Pure Amazon</td><td>Execution at scale, logistics, operational excellence</td></tr>
+<tr><td>Mu Sigma</td><td>Apple-dominant, Amazon-adjacent</td><td>Proprietary methods, compartmentalized teams, scales through process</td></tr>
+<tr><td><strong>GLU</strong></td><td><strong>Apple + Mu Sigma</strong></td><td><strong>Diagnostic intelligence, proprietary methods, judgment-driven</strong></td></tr>
+</table>
+
+<h2>Mu Sigma as Reference Point</h2>
+<p>Mu Sigma ($1.5B+ analytics company) proves the Apple archetype works for services/analytics businesses. They use proprietary methodology not disclosed to clients or employees, compartmentalized teams, and "decision theaters" for structured delivery.</p>
+
+<div class="card accent">
+<strong>Key difference from GLU:</strong> Mu Sigma = people deliver (analysts do the work for each client → scales to thousands of employees). GLU = software delivers (AI generates analysis → stays small, same software runs more times). Both use Apple archetype for IP protection, but fundamentally different economics.
+</div>
+
+<h2>Why GLU Needs Apple Archetype</h2>
+<ol>
+<li><strong>Accumulated diagnostic knowledge is the advantage</strong> — Publishing methods or training contractors on the full system creates competitors.</li>
+<li><strong>Small scale by design</strong> — Centralized judgment and coherence work at this scale. Amazon's transparency works for massive scale; GLU won't reach that.</li>
+<li><strong>Customer trust comes from consistency, not methodology</strong> — Customers trust the diagnosis is right without seeing under the hood.</li>
+<li><strong>Product (diagnostic output), not service (execution)</strong> — Publishing would commoditize the diagnostic capability.</li>
+</ol>
+
+<h2>What Would Happen with Wrong Archetype?</h2>
+<p><strong>If Google (Publication):</strong> Agencies copy diagnostic frameworks → pricing power erodes → accumulated knowledge advantage disappears.</p>
+<p><strong>If Amazon (Radical Transparency):</strong> Contractors understand full system → people leave and start competing companies → IP leaks through training materials.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- OPERATING FORECAST -->
+<!-- ============================================ -->
+<div class="page" id="page-forecast">
+<h1>Operating Forecast</h1>
+<div class="subtitle">Revenue Model, Scaling Milestones, and Margin Targets</div>
+
+<div class="card accent">
+<strong>Governing Principle:</strong> Revenue follows judgment quality. Headcount follows judgment capacity. Margin follows accretion. None of these follow customer count alone.
+</div>
+
+<h2>Operating Posture</h2>
+<p><strong>Async-First:</strong> Email is primary communication. Calls only after trust exists in writing. No standing meetings. No account management as separate function. This is a positioning decision: async signals judgment, not throughput.</p>
+<p><strong>Founder-Led Through Ramp:</strong> Founders perform diagnosis, calibration, and governance during initial ramp.</p>
+<p><strong>Partner-Leveraged Distribution:</strong> Agencies carry selling. GLU does not scale sales headcount proportionally to revenue.</p>
+
+<h2>Revenue Streams</h2>
+<table>
+<tr><th>Stream</th><th>Pricing</th><th>Basis</th></tr>
+<tr><td>App Store</td><td>$99–$699 per snapshot</td><td>Self-service diagnostics</td></tr>
+<tr><td>Observe</td><td>$2.5K–$5K</td><td>Direct and partner-referred</td></tr>
+<tr><td>Analyze</td><td>$7.5K–$15K</td><td>Post-Observe conversion</td></tr>
+<tr><td>Deploy</td><td>$5K–$20K</td><td>Post-Analyze execution</td></tr>
+<tr><td>Monitor</td><td>$1,500/year</td><td>Recurring annual</td></tr>
+</table>
+
+<p>A full Observe → Analyze → Deploy engagement yields <strong>$15K–$40K</strong>. Expected blended value per engaged customer is <strong>$10K–$20K</strong>.</p>
+
+<h2>Headcount vs Revenue Milestones</h2>
+<table>
+<tr><th>ARR Range</th><th>Headcount</th><th>Key Additions</th><th>Trigger</th></tr>
+<tr><td>$0–$250K</td><td>0 (founders only)</td><td>None</td><td>Pre-revenue ramp</td></tr>
+<tr><td>$250K–$500K</td><td>1–2</td><td>Engineer</td><td>Monitoring coverage gap</td></tr>
+<tr><td>$500K–$1M</td><td>3–5</td><td>+ Researcher, + Comms</td><td>Spec backlog, delivery cadence</td></tr>
+<tr><td>$1M–$2M</td><td>5–8</td><td>+ Supervisor, + Engineer</td><td>Wait time, signal quality</td></tr>
+<tr><td>$2M–$5M</td><td>8–12</td><td>+ Strategy Core</td><td>Learning Review bottleneck</td></tr>
+</table>
+
+<h2>Margin Targets</h2>
+<table>
+<tr><th>Phase</th><th>Gross Margin</th><th>EBITDA</th></tr>
+<tr><td>Ramp (Year 1)</td><td>70–80%</td><td>Breakeven to modest positive</td></tr>
+<tr><td>Growth (Year 2–3)</td><td>60–70%</td><td>15–25%</td></tr>
+<tr><td>Scale (Year 3+)</td><td>65–75%</td><td>25–35%</td></tr>
+</table>
+
+<p>Gross margin improves over time because SSOT accretion makes each engagement faster to deliver without reducing value.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- UNIT ECONOMICS -->
+<!-- ============================================ -->
+<div class="page" id="page-unit-econ">
+<h1>Unit Economics (Detailed)</h1>
+<div class="subtitle">Customer Funnel, Delivery Costs, Cash Flow & Breakeven</div>
+
+<h2>Starting Position</h2>
+<div class="metrics">
+  <div class="metric"><div class="value">7.25</div><div class="label">FTE at Launch</div></div>
+  <div class="metric"><div class="value">$625K</div><div class="label">Annual Team Cost (incl. founders)</div></div>
+  <div class="metric"><div class="value">$57K</div><div class="label">Monthly Burn</div></div>
+  <div class="metric"><div class="value">$250K</div><div class="label">Starting Cash</div></div>
+</div>
+
+<h2>Delivery Costs per Service</h2>
+<table>
+<tr><th>Service</th><th>Unit Cost</th><th>Price</th><th>Margin</th></tr>
+<tr><td>App Store diagnostic (free lead gen)</td><td>$5</td><td>$0</td><td>Lead magnet</td></tr>
+<tr><td>Analyze (direct sale)</td><td>$10</td><td>$3,500</td><td>99.7%</td></tr>
+<tr><td>Deploy implementation</td><td>$25</td><td>$12,000</td><td>99.8%</td></tr>
+<tr><td>Monitor (annual)</td><td>$15</td><td>$1,500</td><td>99.0%</td></tr>
+</table>
+
+<h2>Customer Acquisition Cost</h2>
+<p><strong>App Store Lead Gen Model:</strong> 100 installs → 10 request quotes → 3 buy Analyze. Cost: 33.3 × $5 = $167 (free diagnostics) + $10 (delivery) + $75 (marketing) = <strong>$252 CAC per Analyze customer</strong>.</p>
+
+<table>
+<tr><th>Channel</th><th>CAC (Year 1)</th><th>LTV:CAC</th></tr>
+<tr><td>App Store → Direct Analyze</td><td>$252</td><td>39:1</td></tr>
+<tr><td>Direct (founder-led)</td><td>$410</td><td>24:1</td></tr>
+<tr><td>Partner referral (25% margin)</td><td>$885</td><td>11:1</td></tr>
+</table>
+
+<h2>Lifetime Value</h2>
+<p>Customer journey from Analyze purchase: $3,500 (100%) → 50% convert to Deploy (0.50 × $12,000 = $6,000) → 60% of Deploy convert to Monitor (0.30 × $1,500 = $450). <strong>Total LTV: $9,950</strong>.</p>
+
+<h2>Monthly Cash Flow (Year 1)</h2>
+<table>
+<tr><th>Month</th><th>Revenue</th><th>Op Cost</th><th>Net</th><th>Cumulative</th></tr>
+<tr><td>1</td><td>$11,200</td><td>($56,583)</td><td>($45,383)</td><td>$204,617</td></tr>
+<tr><td>3</td><td>$21,800</td><td>($56,583)</td><td>($34,783)</td><td>$128,751</td></tr>
+<tr><td>6</td><td>$48,500</td><td>($57,583)</td><td>($9,083)</td><td>$81,502</td></tr>
+<tr><td style="font-weight:700; color:var(--accent)">8</td><td style="font-weight:700">$62,800</td><td>($58,583)</td><td style="color:var(--accent); font-weight:700">$4,217</td><td>$83,836 ← BREAKEVEN</td></tr>
+<tr><td>12</td><td>$85,300</td><td>($60,583)</td><td>$24,717</td><td>$152,004</td></tr>
+</table>
+
+<h2>Conversion Assumptions</h2>
+<table>
+<tr><th>Conversion Path</th><th>Rate</th><th>Benchmark</th></tr>
+<tr><td>Observe → Analyze</td><td>30%</td><td>SaaS trial-to-paid: 25–40%</td></tr>
+<tr><td>Analyze → Deploy</td><td>50%</td><td>Consulting extension: 40–60%</td></tr>
+<tr><td>Deploy → Monitor</td><td>60%</td><td>Service-to-recurring: 50–70%</td></tr>
+</table>
+</div>
+
+<!-- ============================================ -->
+<!-- CASH & HEADCOUNT -->
+<!-- ============================================ -->
+<div class="page" id="page-cash">
+<h1>Cash and Headcount Model</h1>
+<div class="subtitle">12-Month and 24-Month Financial Projections</div>
+
+<div class="card accent">
+<strong>Core Principle:</strong> Cash follows revenue follows judgment quality follows accretion. The model is conservative on cost and moderate on revenue because judgment businesses compound slowly and durably.
+</div>
+
+<h2>Starting Team</h2>
+<table>
+<tr><th>Role</th><th>Annual Cost</th></tr>
+<tr><td>2 Founders (draw)</td><td>$300,000</td></tr>
+<tr><td>4 Engineers (diagnostic infrastructure)</td><td>$220,000</td></tr>
+<tr><td>1 Communications/Marketing Manager</td><td>$40,000</td></tr>
+<tr><td>1 Strategy Consultant/Coach</td><td>$50,000</td></tr>
+<tr><td>1 Fractional CFO (0.25 FTE)</td><td>$15,000</td></tr>
+<tr><td><strong>Total (~7.25 FTE)</strong></td><td><strong>$625,000</strong></td></tr>
+</table>
+
+<h2>Revenue Projections</h2>
+<h3>Year 1</h3>
+<table>
+<tr><th>Quarter</th><th>Engagements</th><th>Blended Revenue/Engagement</th><th>Quarterly Revenue</th></tr>
+<tr><td>Q1</td><td>3–5</td><td>$3K</td><td>$9K–$15K</td></tr>
+<tr><td>Q2</td><td>8–12</td><td>$6K</td><td>$48K–$72K</td></tr>
+<tr><td>Q3</td><td>15–20</td><td>$10K</td><td>$150K–$200K</td></tr>
+<tr><td>Q4</td><td>20–30</td><td>$12K</td><td>$240K–$360K</td></tr>
+<tr><td><strong>Year 1 Total</strong></td><td></td><td></td><td><strong>$450K–$650K</strong></td></tr>
+</table>
+
+<h3>Year 2: $2.0M–$2.7M</h3>
+
+<h2>Cash Position Summary</h2>
+<h3>12-Month View</h3>
+<table>
+<tr><th></th><th>Low</th><th>Base</th><th>High</th></tr>
+<tr><td>Revenue</td><td>$450K</td><td>$550K</td><td>$650K</td></tr>
+<tr><td>App Store</td><td>$30K</td><td>$45K</td><td>$60K</td></tr>
+<tr><td>Operating Cost</td><td>($389K)</td><td>($377K)</td><td>($365K)</td></tr>
+<tr><td><strong>Net Cash from Operations</strong></td><td><strong>$91K</strong></td><td><strong>$218K</strong></td><td><strong>$345K</strong></td></tr>
+</table>
+
+<h3>24-Month Cumulative</h3>
+<table>
+<tr><th></th><th>Low</th><th>Base</th><th>High</th></tr>
+<tr><td>Cumulative Revenue</td><td>$2.5M</td><td>$3.1M</td><td>$3.4M</td></tr>
+<tr><td>Cumulative Op Cost</td><td>($804K)</td><td>($777K)</td><td>($750K)</td></tr>
+<tr><td><strong>Cumulative Net Cash</strong></td><td><strong>$1.79M</strong></td><td><strong>$2.44M</strong></td><td><strong>$2.81M</strong></td></tr>
+</table>
+
+<p><em>Note: Founder draw excluded from operating cost figures. Included separately for total cash planning.</em></p>
+</div>
+
+<!-- ============================================ -->
+<!-- RISKS -->
+<!-- ============================================ -->
+<div class="page" id="page-risks">
+<h1>Operating Plan Risks & Mitigations</h1>
+<div class="subtitle">Threats to the Financial Model and Required Amendments</div>
+
+<div class="card accent">
+<strong>Risk Framework:</strong> This financial model assumes software can deliver diagnostics at scale ($5–25 cost) with minimal human labor. The risks below could fundamentally change the economics.
+</div>
+
+<h2>Risk #1: Bot Scraping Failure <span class="badge red">Highest Impact</span></h2>
+<p><strong>Risk:</strong> Unable to use bots to extract data from AI chatbots. Would require human operators ($200–500/diagnostic vs. $5–10 automated).</p>
+<p><strong>Impact:</strong> Gross margin collapse 93% → 50–85%. CAC $252 → $6,700+. LTV:CAC 39:1 → 1.5:1.</p>
+<p><strong>Mitigations:</strong> Accept lower margins with Pune contractors (+$50/diagnostic, margin stays 83%). Price increase to $4,500. Reduce chatbot coverage (2 platforms vs. 5). Chatbot-lite tier at $2,500.</p>
+<p><strong>Amendment needed:</strong> +$100K starting cash ($350K total) to handle higher variable costs.</p>
+
+<h2>Risk #2: Unit Costs Increase <span class="badge green">Low Risk</span></h2>
+<p>Even 5× cost increase only reduces margins from 93% to 85% because compute/labor is tiny relative to revenue ($10–25 vs. $3,500–$12,000). No amendment required.</p>
+
+<h2>Risk #3: Conversion Rates Below Projections <span class="badge blue">Moderate</span></h2>
+<p>If App Store → Analyze drops to 1%, CAC rises to $600 but LTV:CAC remains 17:1. Breakeven delays to Month 9. No amendment required.</p>
+
+<h2>Risk #4: Shopify App Store Rejection <span class="badge red">Existential</span></h2>
+<p>Without App Store presence, cannot execute Deploy on Shopify stores. LTV collapses $9,950 → $3,500. LTV:CAC drops to 14:1.</p>
+<p><strong>Mitigations:</strong> Pre-submission compliance with Shopify Partner Success, legal review, proactive customer support, privacy-first data handling.</p>
+
+<h2>Risk #5–11 Summary</h2>
+<table>
+<tr><th>Risk</th><th>Severity</th><th>Amendment?</th></tr>
+<tr><td>Partner channel fails to scale</td><td><span class="badge green">Low</span></td><td>No — partners nice-to-have, not critical</td></tr>
+<tr><td>Competition from established players</td><td><span class="badge blue">Moderate</span></td><td>No — SSOT moat, quality focus</td></tr>
+<tr><td>Founder bandwidth constraint</td><td><span class="badge blue">Moderate</span></td><td>+$35–47K if early hiring</td></tr>
+<tr><td>Quality/accuracy issues</td><td><span class="badge blue">Moderate</span></td><td>-2% revenue for refunds</td></tr>
+<tr><td>Platform policy changes</td><td><span class="badge green">Low</span></td><td>$500 one-time if major change</td></tr>
+<tr><td>Economic downturn</td><td><span class="badge blue">Moderate</span></td><td>+$20–40K working capital</td></tr>
+<tr><td>Hiring costs higher</td><td><span class="badge green">Low</span></td><td>No — $250K buffer covers</td></tr>
+</table>
+
+<h2>Emergency Levers (No Cost)</h2>
+<table>
+<tr><th>Lever</th><th>Impact</th></tr>
+<tr><td>Cut founder draw ($25K → $15K/mo)</td><td>Saves $10K/mo, extends runway 3–4 months</td></tr>
+<tr><td>Delay hiring</td><td>Push Researcher from M18 to M24+, saves $60K Y1</td></tr>
+<tr><td>Price increase (Analyze $3,500 → $4,500)</td><td>+$1,000 per customer</td></tr>
+<tr><td>Scope reduction (drop chatbot analysis)</td><td>Delivery cost $10 → $5</td></tr>
+<tr><td>Activate paid ads (+$500/mo)</td><td>Faster revenue growth</td></tr>
+</table>
+</div>
+
+<!-- ============================================ -->
+<!-- HEADCOUNT -->
+<!-- ============================================ -->
+<div class="page" id="page-headcount">
+<h1>Headcount Scaling Model</h1>
+<div class="subtitle">When and Why to Add People</div>
+
+<div class="card accent">
+<strong>Core Principle:</strong> GLU scales learning and judgment, not throughput. Headcount increases are triggered by breaks in judgment quality or governance, not by customer count.
+</div>
+
+<h2>Scaling Sequence (Priority Order)</h2>
+<p><strong>The order is not negotiable.</strong></p>
+<table>
+<tr><th>#</th><th>Role</th><th>Rationale</th></tr>
+<tr><td>1</td><td>Diagnostic Analyst</td><td>Diagnosis is core product. If constrained, everything downstream starves.</td></tr>
+<tr><td>2</td><td>Specification Author</td><td>Translates diagnosis into reviewable form. Add only after diagnostic capacity is healthy.</td></tr>
+<tr><td>3</td><td>Customer/Partner Communications</td><td>Findings must reach customers. Add only after monitoring output exists.</td></tr>
+<tr><td>4</td><td>Deployment Operator</td><td>Optional and mechanical. Add only after spec throughput is healthy.</td></tr>
+<tr><td>5</td><td>Strategy Core</td><td>Governance and calibration. Add only when Learning Review is genuinely bottlenecked.</td></tr>
+</table>
+
+<h2>Roles That Should NOT Scale Linearly</h2>
+<p><strong>Sales:</strong> Partners carry selling. If sales:diagnostic ratio exceeds 1:1, GTM has drifted to agency.</p>
+<p><strong>Customer Success:</strong> Not a separate function. Monitoring findings ARE the account management.</p>
+<p><strong>Content Production:</strong> Does not exist at GLU. If proposed, it's Category 2 drift.</p>
+
+<h2>Hiring Drift Signals</h2>
+<table>
+<tr><th>Signal</th><th>What It Means</th></tr>
+<tr><td>"We need more people to keep up with deliverables"</td><td>Throughput framing, not judgment. Drift.</td></tr>
+<tr><td>"We need a dedicated person for [brand]"</td><td>Per-brand staffing = agency structure.</td></tr>
+<tr><td>"We need a project manager"</td><td>GLU has diagnostic cycles, not projects. Agency drift.</td></tr>
+<tr><td>"We should hire for [platform] expertise"</td><td>Platform expertise = agency scope. GLU diagnoses.</td></tr>
+</table>
+
+<h2>Healthy Ratios</h2>
+<table>
+<tr><th>Ratio</th><th>Healthy</th><th>Drift Signal</th></tr>
+<tr><td>Diagnostic Analysts : Total headcount</td><td>&gt;30%</td><td>Below 30% = execution-heavy</td></tr>
+<tr><td>Deployment : Diagnostic</td><td>&lt;1:1</td><td>Exceeding = deployment outpacing diagnosis</td></tr>
+<tr><td>Sales : Diagnostic</td><td>&lt;1:1</td><td>Exceeding = agency-shaped GTM</td></tr>
+<tr><td>Content/copy roles</td><td>0</td><td>Any nonzero = Category 2 drift</td></tr>
+</table>
+
+<blockquote>Question before every hire: Does this person make the diagnostic system sharper, or does this person make someone's to-do list shorter? If sharper: hire. If shorter: pause, reframe, or decline.</blockquote>
+</div>
+
+<!-- ============================================ -->
+<!-- DISTRIBUTION -->
+<!-- ============================================ -->
+<div class="page" id="page-distribution">
+<h1>Distribution Strategy</h1>
+<div class="subtitle">Partners Sell, We Stay Upstream</div>
+
+<div class="card accent">
+<strong>Core Principle:</strong> Agencies and resellers carry distribution. We stay small and upstream. We don't scale sales headcount proportionally to revenue targets.
+</div>
+
+<h2>Three Distribution Channels</h2>
+
+<h3>1. Shopify App Store (Self-Service)</h3>
+<p>Lower price point ($99–$699), automated diagnostics, upsell funnel to full engagement. Shopify takes 15% — but this conserves capital vs. building a sales team. Zero acquisition cost, free billing infrastructure.</p>
+
+<h3>2. Partner-Sourced (Reseller Model)</h3>
+<p>Agencies sell GLU diagnostics to existing clients. Higher engagement value ($15K–$40K). Partners get 20–30% margin.</p>
+
+<table>
+<tr><th>Partner Tier</th><th>Margin</th><th>Requirements</th></tr>
+<tr><td>Referral Partner</td><td>10–15%</td><td>Introduce customers, no technical knowledge</td></tr>
+<tr><td>Reseller Partner</td><td>20–25%</td><td>Actively sell and position</td></tr>
+<tr><td>Implementation Partner</td><td>25–30%</td><td>Sell + deliver implementation of specs</td></tr>
+</table>
+
+<h3>3. Direct Sales (Strategic Accounts)</h3>
+<p>Enterprise/strategic accounts, early customers, inbound leads, App Store upgrades. Highest value but doesn't scale proportionally.</p>
+
+<h2>Target Mix by Revenue Stage</h2>
+<table>
+<tr><th>Revenue</th><th>App Store</th><th>Partners</th><th>Direct</th></tr>
+<tr><td>$0–$500K</td><td>10–20%</td><td>10–20%</td><td>60–80%</td></tr>
+<tr><td>$500K–$1M</td><td>20–30%</td><td>30–40%</td><td>30–50%</td></tr>
+<tr><td>$1M–$3M</td><td>30–40%</td><td>40–50%</td><td>20–30%</td></tr>
+<tr><td>$3M+</td><td>30–40%</td><td>40–50%</td><td>10–20%</td></tr>
+</table>
+
+<h2>Partner Boundaries</h2>
+<p><strong>Partners CAN:</strong> Sell, bundle with their services, implement specs, use findings to inform agency work, co-market.</p>
+<p><strong>Partners CANNOT:</strong> White-label, modify reports, access methods/IP, set pricing below floor, build competing diagnostics.</p>
+<p><strong>Why no white-label:</strong> Lose brand awareness, partners could replicate and compete, can't accumulate learning without knowing end customers, commoditizes diagnostics.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- CUSTOMER JOURNEY -->
+<!-- ============================================ -->
+<div class="page" id="page-journey">
+<h1>Customer Journey Walkthrough</h1>
+<div class="subtitle">Full Customer Journey: Observe → Analyze → Deploy → Monitor</div>
+
+<p><strong>Example Customer:</strong> TASC Performance (athletic apparel, 919 products)</p>
+
+<div class="card">
+<strong>Operating Model Context:</strong> GLU follows the Apple archetype — coherence, judgment, restraint. No ROI promises. Human judgment required. Product, not service. Prohibited language includes "optimize", "guarantee", "boost revenue". Approved language: "clarify", "align", "verify", "correct", "improved advice".
+</div>
+
+<h2>Phase 1: Observe</h2>
+<h3>Diagnostic: What's Broken</h3>
+<p>Platform analyzes current state of AI visibility. Customer gets: gap analysis, competitive reality, query volume (~18K monthly searches where TASC should appear), root cause analysis.</p>
+<p><strong>TASC findings:</strong> 919 products with systematic gaps — 98% missing material composition, 98% missing care instructions, 99% missing sustainability messaging. AI can't answer "What's this made of?" or "How do I care for bamboo fabric?"</p>
+<p><em>Read-only access only. No content changes. Pure diagnostic.</em></p>
+
+<h2>Phase 2: Analyze</h2>
+<h3>Prescription: What to Change</h3>
+<p>Shows what needs fixing + creates urgency. Customer gets: technical plan, competitive framing (Lululemon, Vuori, Patagonia winning queries), urgency, effort estimates (1,215 hours manual vs. 4–5 weeks with GLU).</p>
+<p><strong>TASC result:</strong> 6,824 changes needed across product titles, descriptions, metafields, site pages, schema markup, and robots.txt.</p>
+
+<div class="card accent">
+<strong>Critical boundary:</strong> No ROI claims. We don't promise "$5M revenue increase." We frame urgency around competitive positioning, category ownership, and time window for early movers.
+</div>
+
+<h2>Phase 3: Deploy</h2>
+<h3>Execution: Content Drafts for Approval</h3>
+<p>Platform generates, human reviews, human decides. Customer gets AI-generated drafts with side-by-side before/after comparison. Every change requires explicit human approval (Accept/Edit/Reject). Rolling deployment at customer's pace.</p>
+<p><strong>Example:</strong> "Carrollton Lightweight Hoodie" → "Carrollton Bamboo Performance Hoodie — Moisture-Wicking Activewear for Men"</p>
+<p><strong>Deployment options:</strong> API (auto) if write permissions granted, CSV export if no write permissions.</p>
+
+<h2>Phase 4: Monitor</h2>
+<h3>Continuous Improvement</h3>
+<p>Automated monitoring: new products get auto-generated drafts, drift detection if content manually changed, AI visibility tracking (does ChatGPT/Claude recommend brand?), competitor tracking.</p>
+<p><strong>Pricing:</strong> 10% of Deploy/month, or annual (10 months for 12). Gated behind Deploy purchase.</p>
+
+<h2>Pricing Summary</h2>
+<table>
+<tr><th>Phase</th><th>Type</th><th>Price</th></tr>
+<tr><td>Observe</td><td>One-time (potentially free)</td><td>TBD — lead generation</td></tr>
+<tr><td>Analyze</td><td>One-time</td><td>TBD — major paid work</td></tr>
+<tr><td>Deploy</td><td>One-time</td><td>Example: $2,500</td></tr>
+<tr><td>Monitor Monthly</td><td>Recurring</td><td>10% of Deploy/month</td></tr>
+<tr><td>Monitor Annual</td><td>Recurring</td><td>10 months for 12</td></tr>
+</table>
+
+<h2>Customer Timeline</h2>
+<ol>
+<li><strong>Day 1:</strong> Connect Shopify → Observe runs</li>
+<li><strong>Days 2–3:</strong> Receive Observe + Analyze reports</li>
+<li><strong>Day 4:</strong> Decide to purchase Deploy</li>
+<li><strong>Day 5:</strong> Grant permissions → Platform generates drafts</li>
+<li><strong>Weeks 2–4:</strong> Review and approve at their pace, deploy in batches</li>
+<li><strong>Weeks 5–8:</strong> AI crawlers recrawl, update knowledge</li>
+<li><strong>Week 9+:</strong> Track results, optionally purchase Monitoring</li>
+</ol>
+</div>
+
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+  const page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+  const link = document.querySelector('.sidebar a[href="#' + id + '"]');
+  if (link) link.classList.add('active');
+  window.scrollTo(0, 0);
+  // Close mobile sidebar
+  document.querySelector('.sidebar').classList.remove('open');
+}
+
+// Handle hash navigation
+if (window.location.hash) {
+  const id = window.location.hash.slice(1);
+  showPage(id);
+}
+window.addEventListener('hashchange', () => {
+  const id = window.location.hash.slice(1);
+  showPage(id);
+});
+</script>
+</body>
+</html>
